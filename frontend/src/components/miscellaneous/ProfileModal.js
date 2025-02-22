@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { ViewIcon } from "@chakra-ui/icons";
 import {
   Modal,
@@ -13,53 +13,64 @@ import {
   IconButton,
   Text,
   Image,
+  Box,
 } from "@chakra-ui/react";
 
 const ProfileModal = ({ user, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-     
+
   return (
     <>
-     
       {children ? (
         <span onClick={onOpen}>{children}</span>
       ) : (
-        <IconButton d={{ base: "flex" }} icon={<ViewIcon />} onClick={onOpen} />
+        <IconButton
+          display={{ base: "flex" }}
+          icon={<ViewIcon />}
+          onClick={onOpen}
+          variant="outline"
+          colorScheme="teal"
+        />
       )}
       <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent h="410px">
+        <ModalContent
+          height={{ base: "450px", md: "400px" }}
+          width="auto"
+          px={4}
+        >
           <ModalHeader
-            fontSize="40px"
+            fontSize={{ base: "32px", md: "40px" }}
             fontFamily="Work sans"
-            d="flex"
-            justifyContent="center"
+            textAlign="center"
           >
             {user.name}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody
             display="flex"
-            flexDir="column"
+            flexDirection="column"
             alignItems="center"
-            justifyContent="space-between"
+            justifyContent="center"
+            gap={4}
           >
             <Image
               borderRadius="full"
-              boxSize="150px"
-              align={"center"}
+              boxSize={{ base: "120px", md: "150px" }}
               src={user.pic}
               alt={user.name}
             />
             <Text
-              fontSize={{ base: "28px", md: "30px" }}
+              fontSize={{ base: "24px", md: "28px" }}
               fontFamily="Work sans"
             >
               Email: {user.email}
             </Text>
           </ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose}>Close</Button>
+          <ModalFooter display="flex" justifyContent="center">
+            <Button onClick={onClose} colorScheme="blue" width="100px">
+              Close
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -68,5 +79,3 @@ const ProfileModal = ({ user, children }) => {
 };
 
 export default ProfileModal;
-
-

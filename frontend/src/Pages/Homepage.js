@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from "react";
 import {
   Box,
   Container,
@@ -8,43 +8,59 @@ import {
   TabPanels,
   Tabs,
   Text,
+  Heading,
+  VStack,
 } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
-import { useEffect } from "react";
 import Login from "../components/Authentication/Login";
 import Signup from "../components/Authentication/Signup";
 
 const Homepage = () => {
+  const history = useHistory();
 
-    const history = useHistory();
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    if (user) history.push("/chats");
+  }, [history]);
 
-    useEffect(() => {
-      const user = JSON.parse(localStorage.getItem("userInfo"));
-
-      if (user) history.push("/chats");
-    }, [history]);
-    
   return (
     <Container maxW="xl" centerContent>
+      {/* Header Section */}
       <Box
         d="flex"
         justifyContent="center"
-        p={3}
-        bg="white"
+        p={4}
+        bgGradient="linear(to-r, blue.400, cyan.400)"
         width="100%"
-        m="40px 0px 15px 0px"
         borderRadius="lg"
-        borderWidth="1px"
+        boxShadow="md"
+        marginTop="20px"
+        marginBottom="30px"
       >
-        <Text fontSize="4xl" fontFamily="Work sans" m="0 0 0 100px ">
+        <Heading
+          fontSize="4xl"
+          fontFamily="Work sans"
+          color="white"
+          textAlign="center"
+        >
           THUNDER-CHAT
-        </Text>
+        </Heading>
       </Box>
-      <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
-        <Tabs isFitted variant="soft-rounded">
+
+      {/* Tabs Section */}
+      <Box
+        bg="white"
+        w="100%"
+        p={6}
+        borderRadius="lg"
+        boxShadow="md"
+        borderWidth="1px"
+        maxWidth="md"
+      >
+        <Tabs isFitted variant="solid-rounded" colorScheme="teal">
           <TabList mb="1em">
-            <Tab>Login</Tab>
-            <Tab>Sign Up</Tab>
+            <Tab fontWeight="bold">Login</Tab>
+            <Tab fontWeight="bold">Sign Up</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -56,8 +72,14 @@ const Homepage = () => {
           </TabPanels>
         </Tabs>
       </Box>
+
+      {/* Footer Section */}
+      <VStack mt="6" spacing="4" color="gray.600">
+        <Text fontSize="sm">Experience seamless chat with Thunder-Chat</Text>
+        <Text fontSize="xs">© 2024 Thunder-Chat. All rights reserved.</Text>
+      </VStack>
     </Container>
   );
-}
+};
 
-export default Homepage
+export default Homepage;

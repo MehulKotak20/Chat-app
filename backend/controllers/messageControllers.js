@@ -22,17 +22,19 @@ const allMessages = asyncHandler(async (req, res) => {
 //@route           POST /api/Message/
 //@access          Protected
 const sendMessage = asyncHandler(async (req, res) => {
-  const { content, chatId } = req.body;
+  const { content, chatId, messageType } = req.body; // Accept messageType from the request body
 
-  if (!content || !chatId) {
+  if (!content || !chatId || !messageType) {
     console.log("Invalid data passed into request");
     return res.sendStatus(400);
   }
 
+  // Add messageType to the message data
   var newMessage = {
     sender: req.user._id,
     content: content,
     chat: chatId,
+    messageType: messageType, // Include messageType (text, image, or video)
   };
 
   try {
@@ -45,9 +47,10 @@ const sendMessage = asyncHandler(async (req, res) => {
       select: "name pic email",
     });
 
+    // Update the latest message in the chat
     await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
 
-    res.json(message);
+    res.json(message); // Respond with the created message
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
